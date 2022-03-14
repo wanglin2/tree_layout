@@ -1,6 +1,6 @@
 import { treeData } from './treeData';
 import { deepCopy } from "./utils";
-import { NODE_SPACE, renderTree, handleTree } from './render';
+import { renderTree, handleTree } from './render';
 
 // 算法3
 const useAlgorithm3 = () => {
@@ -55,8 +55,7 @@ const useAlgorithm3 = () => {
     };
     const layout = (tree) => {
         setup(tree);
-        console.log(tree);
-        // addmods(tree);
+        addmods(tree);
         return tree;
     };
     let tree = new DrawTree(deepCopy(treeData));

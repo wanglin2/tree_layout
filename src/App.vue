@@ -6,12 +6,11 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { binaryTreeData, treeData } from "./treeData";
-import { deepCopy } from "./utils";
-import { init, renderbinaryTreeData, renderTree, handleTree } from "./render";
-import useAlgorithm1 from './algorithm1';
-import useAlgorithm2 from './algorithm2';
-import useAlgorithm3 from './algorithm3';
+import { init } from "./render";
+import useAlgorithm1 from "./algorithm1";
+import useAlgorithm2 from "./algorithm2";
+import useAlgorithm3 from "./algorithm3";
+import useAlgorithm4 from "./algorithm4";
 
 const drawBox = ref(null);
 onMounted(() => {
@@ -19,6 +18,7 @@ onMounted(() => {
   // useAlgorithm1();
   // useAlgorithm2();
   useAlgorithm3();
+  // useAlgorithm4();
 });
 </script>
 
