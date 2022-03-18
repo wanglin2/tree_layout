@@ -90,3 +90,228 @@ export const treeData = {
     },
   ],
 };
+
+export const treeData2 = {
+  name: "O",
+  children: [
+    {
+      name: "E",
+      children: [
+        {
+          name: "A",
+          children: [],
+        },
+        {
+          name: "D",
+          children: [
+            {
+              name: "B",
+              children: [],
+            },
+            {
+              name: "C",
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "F",
+      children: [],
+    },
+    {
+      name: "N",
+      children: [
+        {
+          name: "G",
+          children: [],
+        },
+        {
+          name: "M",
+          children: [
+            {
+              name: "H",
+              children: [],
+            },
+            {
+              name: "I",
+              children: [],
+            },
+            {
+              name: "J",
+              children: [],
+            },
+            {
+              name: "K",
+              children: [],
+            },
+            {
+              name: "L",
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const treeData3 = {
+  name: "P",
+  children: [
+    {
+      name: "G",
+      children: [
+        {
+          name: "C",
+          children: [
+            {
+              name: "B",
+              children: [
+                {
+                  name: "A",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: "E",
+          children: [
+            {
+              name: "D",
+              children: [],
+            },
+          ],
+        },
+        {
+          name: "F",
+          children: [],
+        },
+      ],
+    },
+    {
+      name: "O",
+      children: [
+        {
+          name: "K",
+          children: [
+            {
+              name: "H",
+              children: [],
+            },
+            {
+              name: "H",
+              children: [],
+            },
+            {
+              name: "J",
+              children: [
+                {
+                  name: "I",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: "N",
+          children: [
+            {
+              name: "H",
+              children: [],
+            },
+            {
+              name: "M",
+              children: [
+                {
+                  name: "L",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const treeData4 = {
+  name: "Q",
+  children: [
+    {
+      name: "G",
+      children: [
+        {
+          name: "C",
+          children: [
+            {
+              name: "B",
+              children: [
+                {
+                  name: "A",
+                  children: [],
+                }
+              ],
+            }
+          ],
+        },
+        {
+          name: "F",
+          children: [
+            {
+              name: "D",
+              children: [],
+            },
+            {
+              name: "E",
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "H",
+      children: [],
+    },
+    {
+      name: "P",
+      children: [
+        {
+          name: "I",
+          children: [],
+        },
+        {
+          name: "O",
+          children: [
+            {
+              name: "J",
+              children: [],
+            },
+            {
+              name: "K",
+              children: [],
+            },
+            {
+              name: "L",
+              children: [],
+            },
+            {
+              name: "M",
+              children: [],
+            },
+            {
+              name: "N",
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
