@@ -1,4 +1,4 @@
-import { treeData4 } from "./treeData";
+import { treeData5 } from "./treeData";
 import { deepCopy } from "./utils";
 import { renderTree, handleTree } from "./render";
 
@@ -167,11 +167,14 @@ const useAlgorithm5 = () => {
   };
 
   const move_subtree = (wl, wr, shift) => {
+    // 两棵冲突的树的间隔被之间的树分成多少分
     let subtrees = wr.number - wl.number;
     wr.change -= shift / subtrees;
     wr.shift += shift;
     wl.change += shift / subtrees;
+    // 自身移动
     wr.x += shift;
+    // 后代节点移动
     wr.mod += shift;
   };
 
@@ -219,7 +222,6 @@ const useAlgorithm5 = () => {
 
   const buchheim = (tree) => {
     let dt = firstwalk(tree);
-    console.log(dt);
     let min = second_walk(dt);
     if (min < 0) {
       third_walk(dt, -min);
@@ -228,7 +230,7 @@ const useAlgorithm5 = () => {
   };
 
   // 测试
-  let tree = new DrawTree(deepCopy(treeData4));
+  let tree = new DrawTree(deepCopy(treeData5));
   tree = buchheim(tree);
   handleTree(tree);
   renderTree(tree);

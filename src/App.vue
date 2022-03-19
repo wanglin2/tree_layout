@@ -12,7 +12,7 @@ import useAlgorithm2 from "./algorithm2";
 import useAlgorithm3 from "./algorithm3";
 import useAlgorithm4 from "./algorithm4";
 import useAlgorithm5 from "./algorithm5";
-import useAlgorithm5Copy from './algorithm5 copy'
+import useAlgorithm5Copy from "./algorithm5 copy";
 
 const drawBox = ref(null);
 onMounted(() => {
