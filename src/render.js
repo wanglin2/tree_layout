@@ -36,23 +36,34 @@ const renderGrid = (stage) => {
   gridLayer.draw();
 };
 // 绘制节点
-export const drawNode = (x, y, name) => {
-  let circle = new Konva.Circle({
+export const drawNode = (x, y, name, w, h) => {
+  // let circle = new Konva.Circle({
+  //   x,
+  //   y,
+  //   radius: 10,
+  //   fill: "#fff",
+  //   stroke: "black",
+  //   strokeWidth: 2,
+  // });
+  let width = w || 30
+  let height = h || 20
+  let rect = new Konva.Rect({
     x,
-    y,
-    radius: 10,
-    fill: "#fff",
-    stroke: "black",
-    strokeWidth: 2,
+    y: y - height / 2,
+    width,
+    height,
+    fill: '#fff',
+    stroke: 'black',
+    strokeWidth: 2
   });
-  layer.add(circle);
+  layer.add(rect);
   let text = new Konva.Text({
     x: x,
     y: y,
     text: name,
     fontSize: 14,
   });
-  text.offsetX(text.width() / 2);
+  text.offsetX(-(width - text.width()) / 2);
   text.offsetY(text.height() / 2);
   layer.add(text);
   layer.draw();
@@ -61,6 +72,23 @@ export const drawNode = (x, y, name) => {
 export const drawLine = (a, b) => {
   let line = new Konva.Line({
     points: [a.x, a.y, b.x, b.y],
+    stroke: "black",
+    strokeWidth: 2,
+    lineCap: "round",
+    lineJoin: "round",
+  });
+  layer.add(line);
+  layer.draw();
+};
+// 绘制思维导图连接线
+export const drawMindLine = (a, b) => {
+  let line = new Konva.Line({
+    points: [
+      a.x + a.width, a.y, 
+      b.x - 20, a.y,
+      b.x - 20, b.y,
+      b.x, b.y
+    ],
     stroke: "black",
     strokeWidth: 2,
     lineCap: "round",
@@ -80,15 +108,16 @@ export const renderbinaryTreeData = (tree) => {
     drawLine(tree, tree.right_child);
     renderbinaryTreeData(tree.right_child);
   }
-  drawNode(tree.x, tree.y);
+  drawNode(tree.x, tree.y, tree.name, tree.width, tree.height);
 };
 // 绘制多叉树
 export const renderTree = (tree) => {
   tree.children.forEach((child) => {
-    drawLine(tree, child);
+    // drawLine(tree, child);
+    drawMindLine(tree, child)
     renderTree(child);
   });
-  drawNode(tree.x, tree.y, tree.name);
+  drawNode(tree.x, tree.y, tree.name, tree.width, tree.height);
 };
 // 处理树数据
 export const handleTree = (tree) => {

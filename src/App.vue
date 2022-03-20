@@ -13,6 +13,7 @@ import useAlgorithm3 from "./algorithm3";
 import useAlgorithm4 from "./algorithm4";
 import useAlgorithm5 from "./algorithm5";
 import useAlgorithm5Copy from "./algorithm5 copy";
+import useMind from "./mind";
 
 const drawBox = ref(null);
 onMounted(() => {
@@ -21,8 +22,9 @@ onMounted(() => {
   // useAlgorithm2();
   // useAlgorithm3();
   // useAlgorithm4();
-  useAlgorithm5();
+  // useAlgorithm5();
   // useAlgorithm5Copy();
+  useMind();
 });
 </script>
 

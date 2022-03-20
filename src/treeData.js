@@ -275,6 +275,10 @@ export const treeData4 = {
               name: "E",
               children: [],
             },
+            {
+              name: "E2",
+              children: [],
+            },
           ],
         },
       ],
@@ -292,6 +296,8 @@ export const treeData4 = {
       children: [
         {
           name: "I",
+          width: 100,
+          height: 200,
           children: [],
         },
         {
