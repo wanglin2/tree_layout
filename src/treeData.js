@@ -252,16 +252,20 @@ export const treeData4 = {
       children: [
         {
           name: "C",
+          width: 50,
+          height: 70,
           children: [
             {
               name: "B",
+              width: 20,
+              height: 50,
               children: [
                 {
                   name: "A",
                   children: [],
-                }
+                },
               ],
-            }
+            },
           ],
         },
         {
@@ -273,6 +277,8 @@ export const treeData4 = {
             },
             {
               name: "E",
+              width: 150,
+              height: 60,
               children: [],
             },
             {
@@ -289,6 +295,8 @@ export const treeData4 = {
     },
     {
       name: "H2",
+      width: 100,
+      height: 40,
       children: [],
     },
     {
@@ -297,7 +305,7 @@ export const treeData4 = {
         {
           name: "I",
           width: 100,
-          height: 200,
+          height: 50,
           children: [],
         },
         {
@@ -309,6 +317,8 @@ export const treeData4 = {
             },
             {
               name: "K",
+              width: 100,
+              height: 60,
               children: [],
             },
             {
@@ -401,9 +411,7 @@ export const treeData5 = {
     },
     {
       name: "",
-      children: [
-
-      ],
+      children: [],
     },
     {
       name: "",
@@ -436,5 +444,5 @@ export const treeData5 = {
         },
       ],
     },
-  ]
-}
+  ],
+};

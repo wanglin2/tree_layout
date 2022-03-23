@@ -1,6 +1,6 @@
 import { treeData4 } from "./treeData";
 import { deepCopy } from "./utils";
-import { renderTree, handleTree, NODE_SPACE } from "./render";
+import { renderTree, NODE_SPACE, NODE_SPACE_X } from "./render";
 
 // 思维导图
 const useMind = () => {
@@ -28,8 +28,10 @@ const useMind = () => {
             // 这是它在兄弟节点中的位置索引 1...n
             this.number = number;
             // 该节点子节点的最大宽度
-            this.maxChildrenWidth = 0
-
+            // this.maxChildrenWidth = 0
+            this.minY = 0
+            this.maxY = 0
+            this.offset = 0
         }
 
         // 有线程返回线程节点，否则返回最右侧的子节点，也就是树的右轮廓
@@ -84,11 +86,11 @@ const useMind = () => {
     }
 
     // 第一次递归
-    const firstwalk = (v, distance = 50) => {
+    const firstwalk = (v) => {
         if (v.children.length === 0) {
             // 当前节点是叶子节点且存在左兄弟节点，则其x坐标等于其左兄弟的x坐标加上间距distance
             if (v.leftmost_sibling) {
-                v.y = v.left_brother().y + distance;
+                v.y = v.left_brother().y + NODE_SPACE;
             } else {
                 // 当前节点是叶节点无左兄弟，那么x坐标为0
                 v.y = 50;
@@ -96,16 +98,16 @@ const useMind = () => {
         } else {
             // default_ancestor初始指向第一个子节点
             let default_ancestor = v.children[0]
-            let maxChildrenWidth = 0
+            // let maxChildrenWidth = 0
             v.children.forEach((child) => {
                 firstwalk(child);
                 // 找出子节点的最大宽度
-                if (child.width > maxChildrenWidth) {
-                    maxChildrenWidth = child.width
-                }
-                default_ancestor = apportion(child, distance, default_ancestor);
+                // if (child.width > maxChildrenWidth) {
+                //     maxChildrenWidth = child.width
+                // }
+                default_ancestor = apportion(child, default_ancestor);
             });
-            v.maxChildrenWidth = maxChildrenWidth
+            // v.maxChildrenWidth = maxChildrenWidth
             // 将shift分摊添加到中间的节点上，也就是添加到节点的x及mod值上
             execute_shifts(v)
 
@@ -115,7 +117,7 @@ const useMind = () => {
             let w = v.left_brother();
             if (w) {
                 // 如果是非叶子节点则其x坐标等于其左兄弟的x坐标加上间距distance
-                v.y = w.y + distance;
+                v.y = w.y + NODE_SPACE;
                 // 同时记录下偏移量（x坐标与子节点的中点之差）
                 v.mod = v.y - midpoint;
             } else {
@@ -127,7 +129,7 @@ const useMind = () => {
     };
 
     // 修正子孙节点定位
-    const apportion = (v, distance, default_ancestor) => {
+    const apportion = (v, default_ancestor) => {
         let leftBrother = v.left_brother();
         if (leftBrother) {
             // 四个节点指针
@@ -154,7 +156,7 @@ const useMind = () => {
                 vOuterRight.ancestor = v;
 
                 // 左侧节点减右侧节点
-                let shift = vInnerLeft.y + sInnerLeft + distance - (vInnerRight.y + sInnerRight);
+                let shift = vInnerLeft.y + sInnerLeft + NODE_SPACE - (vInnerRight.y + sInnerRight);
                 if (shift > 0) {
                     let _ancestor = ancestor(vInnerLeft, v, default_ancestor)
                     // 大于0说明存在交叉，那么右侧的树要向右移动
@@ -229,21 +231,74 @@ const useMind = () => {
     const second_walk = (v, m = 0, depth = 0, s = 0) => {
         // 初始x值加上所有祖宗节点的mod修正值
         v.y += m;
-        v.x = depth * 50 + s + 50;
+        v.x = depth * NODE_SPACE_X + s + NODE_SPACE_X;
         v.children.forEach((child) => {
-            let maxWidth = 0
-            if (v.parent) {
-                maxWidth = v.parent.maxChildrenWidth
-            } else {
-                maxWidth = v.width
-            }
-            second_walk(child, m + v.mod, depth + 1, s + maxWidth);
+            // let maxWidth = 0
+            // if (v.parent) {
+            //     maxWidth = v.parent.maxChildrenWidth
+            // } else {
+            //     maxWidth = v.width
+            // }
+            second_walk(child, m + v.mod, depth + 1, s + v.width);
         });
+    };
+
+    // 第三次遍历
+    const third_walk = (tree) => {
+        let selfMinY = tree.y - tree.height / 2
+        let selfMaxY = tree.y + tree.height / 2
+        // 计算每个节点的minY和maxY
+        if (tree.children.length > 0) {
+            let minY = Infinity
+            let maxY = -Infinity
+            tree.children.forEach((child) => {
+                third_walk(child);
+                if (child.minY < minY) {
+                    minY = child.minY
+                }
+                if (child.maxY > maxY) {
+                    maxY = child.maxY
+                }
+            });
+            
+            tree.minY = selfMinY < minY ? selfMinY : minY
+            tree.maxY = selfMaxY > maxY ? selfMaxY : maxY
+        } else {
+            tree.minY = selfMinY
+            tree.maxY = selfMaxY
+        }
+        // 判断是否和左兄弟有交叉
+        if (tree.left_brother()) {
+            if (tree.minY < tree.left_brother().maxY + NODE_SPACE) {
+                let o = tree.left_brother().maxY - tree.minY + NODE_SPACE
+                tree.offset = o// 用于移动子节点
+                tree.y += o// 移动自身
+                tree.minY += o// 更新minY、maxY
+                tree.maxY += o
+            }
+        }
+    };
+
+    // 第四次遍历
+    const fourth_walk = (tree, o = 0) => {
+        tree.y += o
+        tree.children.forEach((child) => {
+            fourth_walk(child, o + tree.offset);
+        });
+        let len = tree.children.length
+        if (len <= 0) {
+            return
+        }
+        // 重新居于子节点中间
+        let mid = (tree.children[0].y + tree.children[len - 1].y) / 2
+        tree.y = mid
     };
 
     const buchheim = (tree) => {
         let dt = firstwalk(tree);
         second_walk(dt);
+        third_walk(dt)
+        fourth_walk(dt)
         console.log(dt);
         return dt;
     };
@@ -251,7 +306,7 @@ const useMind = () => {
     // 测试
     let tree = new DrawTree(deepCopy(treeData4));
     tree = buchheim(tree);
-    renderTree(tree);
+    renderTree(tree, 'mind');
 };
 
 export default useMind;
